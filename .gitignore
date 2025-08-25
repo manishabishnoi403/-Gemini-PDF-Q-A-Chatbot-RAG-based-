@@ -1,0 +1,42 @@
+# -------------------------
+# Python cache & bytecode
+# -------------------------
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# -------------------------
+# Virtual environments & secrets
+# -------------------------
+venv/
+.env/
+.envrc
+*.env
+
+# -------------------------
+# OS generated files
+# -------------------------
+.DS_Store
+Thumbs.db
+
+# -------------------------
+# Streamlit config
+# -------------------------
+.streamlit/
+
+# -------------------------
+# Project data (not needed in GitHub)
+# -------------------------
+uploads/        # uploaded PDFs (temporary files)
+chroma_dbs/     # Chroma vector DB indexes
+
+# -------------------------
+# Jupyter Notebook checkpoints
+# -------------------------
+.ipynb_checkpoints/
+
+# -------------------------
+# Logs
+# -------------------------
+*.log
