@@ -1,0 +1,6 @@
+streamlit
+langchain
+langchain-google-genai
+chromadb
+pypdf
+nest_asyncio
