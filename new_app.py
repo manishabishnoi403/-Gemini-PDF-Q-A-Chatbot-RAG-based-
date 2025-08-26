@@ -1,19 +1,9 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[6]:
-
-
-# gemini_app.py
-# Streamlit UI for Gemini PDF Q&A (RAG).
-
 import os
 import asyncio
 import nest_asyncio
 import streamlit as st
 from typing import List
 
-# 🔧 Fix for RuntimeError: no current event loop
 nest_asyncio.apply()
 try:
     asyncio.get_running_loop()
@@ -24,18 +14,14 @@ from langchain.chains import RetrievalQA
 from langchain_google_genai import ChatGoogleGenerativeAI
 from new_brain import build_index_for_pdfs, clear_all_indexes, PERSIST_BASE_DIR
 
-
-# ---------- Page / Secrets ----------
 st.set_page_config(page_title="Gemini PDF Q&A Chatbot", page_icon="📄", layout="centered")
 st.title("📄 Gemini PDF Q&A Chatbot")
 
-# Read API key from Streamlit secrets (recommended)
 if "GOOGLE_API_KEY" in st.secrets:
     os.environ["GOOGLE_API_KEY"] = st.secrets["GOOGLE_API_KEY"]
 elif not os.getenv("GOOGLE_API_KEY"):
     st.warning("Set your GOOGLE_API_KEY in .streamlit/secrets.toml or environment.")
 
-# ---------- Sidebar controls ----------
 with st.sidebar:
     st.header("⚙️ Settings")
 
@@ -63,7 +49,6 @@ with st.sidebar:
 st.write("Upload one or more PDFs and ask questions about their content. "
          "The app builds a fresh vector index for each upload.")
 
-# ---------- File upload ----------
 uploads = st.file_uploader(
     "Upload PDF(s) (limit set by your server; multiple allowed)",
     type=["pdf"],
@@ -105,15 +90,12 @@ if uploads and query:
         return_source_documents=True
     )
 
-    # ---------- Ask ----------
     with st.spinner("Thinking…"):
         result = qa_chain.invoke(query)
 
-    # ---------- Display ----------
     st.subheader("Answer")
     st.write(result["result"])
 
-    # Sources
     with st.expander("Show sources"):
         srcs = result.get("source_documents", [])
         if not srcs:
@@ -130,7 +112,7 @@ else:
     st.info("Upload at least one PDF and enter a question to begin.")
 
 
-# In[ ]:
+
 
 
 
