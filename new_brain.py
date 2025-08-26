@@ -1,12 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[7]:
-
-
-# gemini_brain.py
-# Build a retriever (vector index) from one or more PDFs using Gemini embeddings + Chroma.
-
 import os
 import shutil
 import uuid
@@ -14,7 +5,6 @@ import asyncio
 import nest_asyncio
 from typing import List, Tuple
 
-# 🔧 Fix: ensure there is always an event loop
 nest_asyncio.apply()
 try:
     asyncio.get_running_loop()
@@ -40,7 +30,7 @@ def safe_rmtree(path: str) -> None:
         if os.path.exists(path):
             shutil.rmtree(path)
     except Exception:
-        # On Windows a DB may be locked; swallow & let user try again later.
+        
         pass
 
 
@@ -49,7 +39,6 @@ def load_and_split_pdfs(
     chunk_size: int = 1000,
     chunk_overlap: int = 200
 ):
-    """Load many PDFs and split to chunks."""
     docs = []
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=chunk_size,
@@ -71,12 +60,9 @@ def build_index_for_pdfs(
     chunk_size: int = 1000,
     chunk_overlap: int = 200
 ) -> Tuple[Chroma, str]:
-    """
-    Create a *fresh* Chroma index for the given PDFs and return (vectorstore, persist_dir).
-    """
+    
     _ensure_base_dir()
 
-    # Unique folder per indexing run prevents stale results / file locks.
     persist_dir = os.path.join(PERSIST_BASE_DIR, f"chroma_db_{uuid.uuid4().hex}")
 
     docs = load_and_split_pdfs(pdf_paths, chunk_size=chunk_size, chunk_overlap=chunk_overlap)
@@ -90,12 +76,8 @@ def build_index_for_pdfs(
     # Chroma persists automatically when using persist_directory; keep path for cleanup.
     return vectordb, persist_dir
 
-
 def clear_all_indexes(keep: List[str] = None) -> int:
-    """
-    Delete all Chroma index folders under PERSIST_BASE_DIR except those in `keep`.
-    Returns how many were deleted.
-    """
+    
     _ensure_base_dir()
     keep = set(keep or [])
     removed = 0
@@ -107,7 +89,6 @@ def clear_all_indexes(keep: List[str] = None) -> int:
     return removed
 
 
-# In[ ]:
 
 
 
