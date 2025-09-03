@@ -28,9 +28,9 @@ with st.sidebar:
     model_choice = st.selectbox(
         "Model",
         [
-            "models/gemini-1.5-pro",     # robust reasoning
-            "models/gemini-2.5-flash",   # fast & cheap
-            "models/gemini-2.0-flash",   # older but compatible
+            "models/gemini-1.5-pro",     
+            "models/gemini-2.5-flash",   
+            "models/gemini-2.0-flash",  
         ],
         index=1,
         help="Pick the LLM for answering."
@@ -73,7 +73,7 @@ query = st.text_input("Ask a question about your PDF(s):", placeholder="e.g., Wh
 if uploads and query:
     saved_paths = save_uploads(uploads)
 
-    # ---------- Build retriever ----------
+    
     with st.spinner("Indexing your PDF(s)…"):
         vectordb, persist_dir = build_index_for_pdfs(
             saved_paths,
@@ -82,7 +82,7 @@ if uploads and query:
         )
         retriever = vectordb.as_retriever(search_kwargs={"k": top_k})
 
-    # ---------- LLM + RetrievalQA ----------
+    
     llm = ChatGoogleGenerativeAI(model=model_choice)
     qa_chain = RetrievalQA.from_chain_type(
         llm=llm,
@@ -110,6 +110,7 @@ if uploads and query:
 
 else:
     st.info("Upload at least one PDF and enter a question to begin.")
+
 
 
 
