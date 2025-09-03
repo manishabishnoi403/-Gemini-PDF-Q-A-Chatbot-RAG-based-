@@ -55,7 +55,8 @@ uploads = st.file_uploader(
     accept_multiple_files=True
 )
 
-# Persist the uploaded files to disk so PyPDFLoader can read them
+
+
 def save_uploads(files) -> List[str]:
     saved_paths = []
     if not files:
@@ -110,6 +111,7 @@ if uploads and query:
 
 else:
     st.info("Upload at least one PDF and enter a question to begin.")
+
 
 
 
